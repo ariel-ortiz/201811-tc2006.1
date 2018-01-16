@@ -47,15 +47,12 @@
   the height a weight."
   [weight height]
   (let [BMI (/ weight (* height height))]
-    (if (< BMI 20)
-      'underweight
-      (if (< BMI 25)
-        'normal
-        (if (< BMI 30)
-          'obese1
-          (if (< BMI 40)
-            'obese2
-            'obese3))))))
+    (cond
+      (< BMI 20) 'underweight
+      (< BMI 25) 'normal
+      (< BMI 30) 'obese1
+      (< BMI 40) 'obese2
+      :else      'obese3)))
 
 (deftest test-bmi
   (is (= 'underweight (bmi 45 1.7)))
@@ -63,6 +60,5 @@
   (is (= 'obese1 (bmi 76 1.7)))
   (is (= 'obese2 (bmi 81 1.6)))
   (is (= 'obese3 (bmi 120 1.6))))
-
 
 (run-tests)
