@@ -13,7 +13,7 @@
 
 (defn sign
   "Returns -1 if n is negative, 0 if it's zero or
-  1 if it's positive greater thanm zero."
+  1 if it's positive greater than zero."
   [n]
   (if (< n 0)
     -1
