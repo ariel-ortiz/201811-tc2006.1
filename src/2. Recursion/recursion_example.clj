@@ -28,3 +28,30 @@
   (if (zero? n)
     ()
     (cons n (countdown (dec n)))))
+
+(defn log2
+  "Returns the logarithm base 2 of n, rounded to the
+  closest integer that is less or equal to the real
+  result."
+  [n]
+  (if (= n 1)
+    0
+    (inc (log2 (quot n 2)))))
+
+(defn howmany
+  "Returns how many times x appears in lst, which might
+  contain nested lists."
+  [x lst]
+  (cond
+    (empty? lst)
+    0
+
+    (list? (first lst))
+    (+ (howmany x (first lst))
+       (howmany x (rest lst)))
+
+    (= x (first lst))
+    (inc (howmany x (rest lst)))
+
+    :else
+    (howmany x (rest lst))))
