@@ -41,12 +41,40 @@
 (defn make-sum
   "Returns a representation of the sum of a1 and a2."
   [a1 a2]
-  (list '+ a1 a2))
+  (cond
+    (= a1 0)
+    a2
+
+    (= a2 0)
+    a1
+
+    (and (number? a1) (number? a2))
+    (+ a1 a2)
+
+    :else
+    (list '+ a1 a2)))
 
 (defn make-product
   "Returns a representation of the product of m1 and m2."
   [m1 m2]
-  (list '* m1 m2))
+  (cond
+    (= m1 0)
+    0
+
+    (= m2 0)
+    0
+
+    (= m1 1)
+    m2
+
+    (= m2 1)
+    m1
+
+    (and (number? m1) (number? m2))
+    (* m1 m2)
+
+    :else
+    (list '* m1 m2)))
 
 (defn sum?
   "Returns true if exp is a sum, false otherwise."

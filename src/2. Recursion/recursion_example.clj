@@ -1,13 +1,25 @@
 (defn !
-  "Computes and returns the factorial of n."
+  "Computes and returns the factorial of n. Uses
+  explicit recursion."
   [n]
   (if (zero? n)
     1
     (*' n (! (dec n)))))
 
+(defn !-loop
+  "Computes and returns the factorial of n. Uses
+  loop/recur."
+  [n]
+  (loop [index   1
+         result  1]
+    (if (> index n)
+      result
+      (recur (inc index) (*' index result)))))
+
+
 (defn dup
   "Returns a new list where every element
-  of lst is duplicated."
+  of lst is duplicated. Uses explicit recursion."
   [lst]
   (if (empty? lst)
     ()
@@ -15,12 +27,33 @@
           (cons (first lst)
                 (dup (rest lst))))))
 
+(defn dup-loop
+  "Returns a new list where every element
+  of lst is duplicated. Uses loop/recur."
+  [lst]
+  (loop [lst lst
+         result ()]
+    (if (empty? lst)
+      (reverse result)
+      (recur (rest lst)
+             (cons (first lst)
+                   (cons (first lst) result))))))
+
 (defn pow
   [base expo]
-  "Raises base to the power expo."
+  "Raises base to the power expo. Uses explicit recursion."
   (if (zero? expo)
     1
     (*' base (pow base (dec expo)))))
+
+(defn pow-loop
+  "Raises base to the power expo. Uses loop/recur."
+  [base expo]
+  (loop [result 1
+         index  0]
+    (if (= index expo)
+      result
+      (recur (*' result base) (inc index)))))
 
 (defn countdown
   "Return a list with (n n-1 n-2 ... 1)."
@@ -55,3 +88,22 @@
 
     :else
     (howmany x (rest lst))))
+
+(defn fibo
+  "Returns the n-th element of the Fibonacci sequence.
+  Uses explicit recursion."
+  [n]
+  (if (< n 2)
+    n
+    (+ (fibo (- n 1)) (fibo (- n 2)))))
+
+(defn fibo-loop
+  "Returns the n-th element of the Fibonacci sequence.
+  Uses loop/recur."
+  [n]
+  (loop [a     0
+         b     1
+         index 0]
+    (if (= index n)
+      a
+      (recur b (+' a b) (inc index)))))
