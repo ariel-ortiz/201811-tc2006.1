@@ -1,6 +1,10 @@
+(use 'clojure.math.numeric-tower)
+
 (declare variable? same-variable? sum?
          addend augend make-sum product?
-         multiplier multiplicand make-product)
+         multiplier multiplicand make-product
+         exponentiation? base exponent
+         make-exponentiation)
 
 (defn deriv
   "Takes an algebraic expression exp and a variable
@@ -24,6 +28,15 @@
                             (deriv (multiplicand exp) var))
               (make-product (multiplicand exp)
                             (deriv (multiplier exp) var)))
+
+    (exponentiation? exp)
+    (make-product
+      (make-product (exponent exp)
+                    (make-exponentiation
+                      (base exp)
+                      (make-sum (exponent exp) -1)))
+      (deriv (base exp) var))
+
     :else
     (throw (IllegalArgumentException.
              (str "unknown expression type: " exp)))))
@@ -105,3 +118,34 @@
   "Returns the multiplicand (product's second operand) of exp."
   [exp]
   (nth exp 2))
+
+(defn exponentiation?
+  "Returns true if exp is a exponentiation, false otherwise."
+  [exp]
+  (and (list? exp) (= (first exp) '**)))
+
+(defn base
+  "Returns the base (exponentiation's first operand) of exp."
+  [exp]
+  (nth exp 1))
+
+(defn exponent
+  "Returns the exponent (exponentiation's second operand) of exp."
+  [exp]
+  (nth exp 2))
+
+(defn make-exponentiation
+  "Returns a representation of b raised to the power e."
+  [b e]
+  (cond
+    (= e 0)
+    1
+
+    (= e 1)
+    b
+
+    (and (number? b) (number? e))
+    (expt b e)
+
+    :else
+    (list '** b e)))
