@@ -1,5 +1,5 @@
 ;==========================================================
-; Type your student ID and name here.
+; Solution to problem 2.
 ;==========================================================
 
 (use 'clojure.test)
@@ -8,7 +8,14 @@
 (defn proper-divisor-sum
   "Returns the sum of all proper divisors of n."
   [n]
-  0)
+  (loop [i    2
+         sum  1]
+    (if (= i n)
+      sum
+      (recur (inc i)
+             (+ sum (if (zero? (rem n i))
+                      i
+                      0))))))
 
 ;==========================================================
 (deftest test-proper-divisor-sum

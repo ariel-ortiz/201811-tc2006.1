@@ -1,5 +1,5 @@
 ;==========================================================
-; Type your student ID and name here.
+; Solution to problem 3.
 ;==========================================================
 
 (use 'clojure.test)
@@ -10,7 +10,12 @@
   element is x, the second element is f(x), the third
   element is f(f(x)), and so on."
   [n f x]
-  ())
+  (loop [i      n
+         x      x
+         result ()]
+    (if (zero? i)
+      (reverse result)
+      (recur (dec i) (f x) (cons x result)))))
 
 ;==========================================================
 (deftest test-thingy

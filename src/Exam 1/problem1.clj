@@ -1,5 +1,5 @@
 ;==========================================================
-; Type your student ID and name here.
+; Solution to problem 1.
 ;==========================================================
 
 (use 'clojure.test)
@@ -8,7 +8,11 @@
 (defn list-of-lists
   "Returns a new list containing n empty lists."
   [n]
-  ())
+  (loop [i      n
+         result ()]
+    (if (zero? i)
+      result
+      (recur (dec i) (cons () result)))))
 
 ;==========================================================
 (deftest test-list-of-lists
