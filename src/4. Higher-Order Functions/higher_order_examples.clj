@@ -32,3 +32,19 @@
     ()
     (cons (fun (first lst))
           (my-map fun (rest lst)))))
+
+(defn power-set
+  "Returns all the possible sets that
+  can be constructed from lst."
+  [lst]
+  (if (empty? lst)
+    '(())
+    (let [r (power-set (rest lst))]
+      (concat r
+              (my-map #(cons (first lst) %) r)))))
+
+(defn combinations
+  "Computes all the combinations of lst
+  taking n elements at a time without repetitions."
+  [lst n]
+  (filter #(= n (count %)) (power-set lst)))
