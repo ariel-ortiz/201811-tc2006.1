@@ -42,3 +42,26 @@
       (fn [[n lst]] (not= n 0)))
     first
     second))
+
+(defn prime-factors
+  "Returns a list with all the prime factors of n."
+  [n]
+  (->>
+    [n 2 ()]
+    (iterate (fn [[n p lst]]
+               (if (zero? (rem n p))
+                 [(quot n p) p (cons p lst)]
+                 [n (inc p) lst])))
+    (drop-while
+      (fn [[n p lst]] (not= n 1)))
+    first
+    rest
+    rest
+    first
+    reverse))
+
+(defn pack
+  "Returns a list with consecutive equal elements packed into
+  their own list."
+  [lst]
+  (partition-by identity lst))
