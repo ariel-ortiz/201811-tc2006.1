@@ -65,3 +65,21 @@
   their own list."
   [lst]
   (partition-by identity lst))
+
+(defn pow2-generator
+  "Returns an infinite lazy sequence of powers of 2."
+  [n]
+  (cons n (lazy-seq (pow2-generator (* n 2)))))
+
+(def pow2 (pow2-generator 1))
+
+
+(defn prime-generator
+  "Returns an infinite lazy sequence of prime numbers."
+  [lst]
+  (let [n (first lst)]
+    (cons n (lazy-seq (prime-generator
+                        (remove #(zero? (rem % n))
+                                (rest lst)))))))
+
+(def primes (prime-generator (iterate inc 2)))
