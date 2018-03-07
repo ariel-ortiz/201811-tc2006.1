@@ -75,7 +75,8 @@
 
 
 (defn prime-generator
-  "Returns an infinite lazy sequence of prime numbers."
+  "Returns an infinite lazy sequence of prime numbers by
+  applying the Sieve of Eratosthenes algorithm."
   [lst]
   (let [n (first lst)]
     (cons n (lazy-seq (prime-generator
