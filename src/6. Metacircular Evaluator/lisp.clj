@@ -7,7 +7,7 @@
   (invoke
     [self args]
     (evaluate body
-              (merge env (zipmap params args))))
+              (merge @env (zipmap params args))))
   (applyTo
     [self args]
     (self args)))
@@ -54,7 +54,13 @@
         (evaluate (fourth expr) env))
 
       lambda
-      (->Closure env (second expr) (third expr))
+      (->Closure (atom env) (second expr) (third expr))
+
+      label
+      (let [lambda-expr (evaluate (third expr) env)]
+        (swap! (.env lambda-expr)
+               #(assoc % (second expr) lambda-expr))
+        lambda-expr)
 
       ; else, function invocation
       (apply (evaluate (first expr) env)
@@ -65,3 +71,25 @@
     :else
     expr))
 
+(evaluate
+  '((lambda (f x) (f (f x)))
+    (lambda (x) (* x 2))
+    10)
+  {'* *})
+
+; => 40
+
+(evaluate
+  '((label dup (lambda (lst)
+                 (if (eq lst ())
+                   ()
+                   (cons (car lst)
+                         (cons (car lst)
+                               (dup (cdr lst)))))))
+    (quote (a b c)))
+  {'eq   =
+   'cons cons
+   'car  first
+   'cdr  rest})
+
+;=> (a a b b c c)
