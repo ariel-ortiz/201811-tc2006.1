@@ -9,7 +9,8 @@
   "Returns a new list with all the possible ways in which 
   x can be inserted into every position of lst."
   [x lst]
-  nil)
+  (map (fn [n] (concat (take n lst) (list x) (drop n lst)))
+       (range (inc (count lst)))))
 
 ;==========================================================
 (deftest test-every-insert

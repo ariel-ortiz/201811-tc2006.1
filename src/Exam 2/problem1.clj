@@ -9,7 +9,8 @@
   "Returns an infinite lazy sequence with the Fibonacci 
   numbers (represented as Clojure BigInt's)."
   []
-  nil)
+  (map first
+       (iterate (fn [[a b]] [b (+ a b)]) [0N 1N])))L
 
 ;==========================================================
 (deftest test-inf-fibo

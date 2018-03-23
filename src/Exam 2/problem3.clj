@@ -66,6 +66,11 @@
                #(assoc % (second expr) lambda-expr))
         lambda-expr)
 
+      dotimes ; expr is a "dotimes" special form
+      (doseq [value (range (evaluate (second (second expr)) env))]
+        (evaluate (third expr)
+                  (assoc env (first (second expr)) value)))
+
       ; else, expr is a function invocation
       (apply (evaluate (first expr) env)
              (map #(evaluate % env)
