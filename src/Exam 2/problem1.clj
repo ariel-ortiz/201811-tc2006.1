@@ -10,7 +10,7 @@
   numbers (represented as Clojure BigInt's)."
   []
   (map first
-       (iterate (fn [[a b]] [b (+ a b)]) [0N 1N])))L
+       (iterate (fn [[a b]] [b (+ a b)]) [0N 1N])))
 
 ;==========================================================
 (deftest test-inf-fibo
