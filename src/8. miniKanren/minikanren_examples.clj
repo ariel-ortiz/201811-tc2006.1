@@ -31,3 +31,11 @@
   sequence where both elements are the same."
   [lst]
   ([[x x]]))
+
+(defne listso
+  "Logical function that succeeds if all the elements of
+  lst are contained within a list in result."
+  [lst result]
+  ([[] []])
+  ([[head . tail] [[head] . temp]]
+   (listso tail temp)))
